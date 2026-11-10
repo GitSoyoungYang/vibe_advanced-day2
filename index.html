@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제주도 관광 가이드</title>
+<style>
+  :root {
+    --sea: #0e7c9b;
+    --sea-dark: #0a5870;
+    --orange: #ff8a3d;
+    --stone: #2b2f33;
+    --bg: #f7fafb;
+    --card: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    color: var(--stone);
+    background: var(--bg);
+    line-height: 1.7;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* 내비게이션 */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 6vw;
+    background: rgba(10, 88, 112, .92);
+    backdrop-filter: blur(6px);
+    color: #fff;
+  }
+  nav .logo { font-weight: 700; font-size: 1.15rem; }
+  nav ul { display: flex; gap: 22px; list-style: none; }
+  nav ul a { font-size: .95rem; opacity: .9; }
+  nav ul a:hover { opacity: 1; color: var(--orange); }
+
+  /* 히어로 */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; color: #fff; padding: 0 6vw;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(255,200,120,.55), transparent 35%),
+      linear-gradient(180deg, #4fc3e8 0%, #0e7c9b 55%, #0a5870 100%);
+  }
+  .hero h1 { font-size: clamp(2.6rem, 8vw, 5rem); letter-spacing: 2px; text-shadow: 0 3px 12px rgba(0,0,0,.25); }
+  .hero p { margin-top: 14px; font-size: clamp(1rem, 2.5vw, 1.4rem); opacity: .95; }
+  .btn {
+    display: inline-block; margin-top: 30px; padding: 14px 34px;
+    background: var(--orange); color: #fff; border-radius: 40px; font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,0,0,.2); transition: transform .2s;
+  }
+  .btn:hover { transform: translateY(-3px); }
+
+  section { padding: 90px 6vw; max-width: 1200px; margin: 0 auto; }
+  section h2 { font-size: 2rem; color: var(--sea-dark); margin-bottom: 8px; }
+  section .sub { color: #66737a; margin-bottom: 36px; }
+
+  /* 카드 */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card {
+    background: var(--card); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,.07); transition: transform .25s, box-shadow .25s;
+  }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 10px 26px rgba(0,0,0,.12); }
+  .thumb { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 3.6rem; }
+  .card .body { padding: 20px; }
+  .card h3 { margin-bottom: 6px; color: var(--sea-dark); }
+  .card p { font-size: .94rem; color: #55626a; }
+  .tag { display: inline-block; margin-top: 10px; padding: 2px 10px; font-size: .78rem; background: #e6f4f8; color: var(--sea-dark); border-radius: 20px; }
+
+  .t1 { background: linear-gradient(135deg, #8ad4a0, #3f9d6b); }
+  .t2 { background: linear-gradient(135deg, #7fd3f0, #2a8fb8); }
+  .t3 { background: linear-gradient(135deg, #ffc27a, #f0803c); }
+  .t4 { background: linear-gradient(135deg, #b9c4cc, #6c7a85); }
+  .t5 { background: linear-gradient(135deg, #f7b6c8, #d96a8c); }
+  .t6 { background: linear-gradient(135deg, #c8b6f0, #7d5fc7); }
+
+  /* 음식 */
+  .food-wrap { background: #fff4e8; max-width: none; }
+  .food-inner { max-width: 1200px; margin: 0 auto; }
+  .food-wrap h2 { color: #c4561a; }
+
+  /* 코스 */
+  .course { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .day { background: var(--card); border-left: 6px solid var(--orange); border-radius: 12px; padding: 22px; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+  .day h3 { color: var(--orange); margin-bottom: 10px; }
+  .day li { margin-left: 18px; font-size: .95rem; }
+
+  /* 팁 */
+  .tips { background: var(--sea-dark); color: #fff; max-width: none; }
+  .tips-inner { max-width: 1200px; margin: 0 auto; }
+  .tips h2 { color: #fff; }
+  .tips .sub { color: #bfe3ee; }
+  .tip-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .tip { background: rgba(255,255,255,.1); border-radius: 12px; padding: 20px; }
+  .tip b { color: #ffd29c; }
+
+  footer { text-align: center; padding: 34px; color: #7a878e; font-size: .9rem; }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 12px; }
+    nav ul a { font-size: .82rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🌴 JEJU</div>
+  <ul>
+    <li><a href="#spots">명소</a></li>
+    <li><a href="#food">먹거리</a></li>
+    <li><a href="#course">추천코스</a></li>
+    <li><a href="#tips">여행팁</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <h1>제주도</h1>
+  <p>바다, 오름, 그리고 바람이 만드는 섬 여행</p>
+  <a class="btn" href="#spots">여행 시작하기</a>
+</header>
+
+<section id="spots">
+  <h2>🏝️ 꼭 가봐야 할 명소</h2>
+  <p class="sub">제주를 대표하는 자연과 풍경</p>
+  <div class="grid">
+    <div class="card">
+      <div class="thumb t1">⛰️</div>
+      <div class="body">
+        <h3>한라산</h3>
+        <p>대한민국 최고봉(1,947m). 백록담까지 오르는 등반 코스가 유명하며 사계절 풍경이 다릅니다.</p>
+        <span class="tag">등산 · 유네스코</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb t3">🌅</div>
+      <div class="body">
+        <h3>성산일출봉</h3>
+        <p>바다에서 솟아오른 분화구. 일출 명소로 유명하고 정상까지 약 30분이면 오를 수 있습니다.</p>
+        <span class="tag">일출 · 유네스코</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb t2">🌊</div>
+      <div class="body">
+        <h3>협재·함덕 해변</h3>
+        <p>에메랄드빛 물색과 하얀 모래가 어우러진 해변. 여름 해수욕과 카페 투어로 인기입니다.</p>
+        <span class="tag">해변 · 휴양</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb t4">🪨</div>
+      <div class="body">
+        <h3>주상절리대</h3>
+        <p>용암이 식으며 만들어진 육각 기둥 절벽. 파도가 부딪히는 모습이 장관입니다.</p>
+        <span class="tag">지질 · 포토스팟</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb t5">🌸</div>
+      <div class="body">
+        <h3>유채꽃·벚꽃 길</h3>
+        <p>봄이면 노란 유채꽃과 벚꽃이 섬 전체를 물들입니다. 녹산로와 전농로가 대표적입니다.</p>
+        <span class="tag">봄 · 드라이브</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="thumb t6">🌋</div>
+      <div class="body">
+        <h3>오름 트레킹</h3>
+        <p>제주에는 360여 개의 오름이 있습니다. 새별오름, 용눈이오름은 초보자도 쉽게 오릅니다.</p>
+        <span class="tag">트레킹 · 노을</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="food" class="food-wrap">
+  <div class="food-inner">
+    <h2>🍊 제주 먹거리</h2>
+    <p class="sub">여행의 절반은 맛집</p>
+    <div class="grid">
+      <div class="card"><div class="body"><h3>🐖 흑돼지</h3><p>쫄깃하고 고소한 제주 대표 음식. 멜젓에 찍어 먹는 것이 제주식입니다.</p></div></div>
+      <div class="card"><div class="body"><h3>🐟 갈치조림 · 회</h3><p>은빛 갈치를 무와 함께 칼칼하게 조린 요리. 신선한 갈치회도 별미입니다.</p></div></div>
+      <div class="card"><div class="body"><h3>🍜 고기국수</h3><p>돼지 뼈를 오래 고은 진한 국물에 면과 수육을 올린 향토 음식입니다.</p></div></div>
+      <div class="card"><div class="body"><h3>🍊 한라봉 · 감귤</h3><p>달콤한 제철 과일. 감귤 초콜릿, 한라봉 에이드 같은 간식도 인기입니다.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="course">
+  <h2>🗺️ 2박 3일 추천 코스</h2>
+  <p class="sub">처음 가는 제주를 위한 기본 일정</p>
+  <div class="course">
+    <div class="day">
+      <h3>Day 1 · 동쪽</h3>
+      <ul>
+        <li>제주공항 도착, 렌터카 수령</li>
+        <li>함덕 해변 산책</li>
+        <li>만장굴 탐방</li>
+        <li>성산 숙소 · 흑돼지 저녁</li>
+      </ul>
+    </div>
+    <div class="day">
+      <h3>Day 2 · 남쪽</h3>
+      <ul>
+        <li>성산일출봉 일출</li>
+        <li>섭지코지 드라이브</li>
+        <li>주상절리대 · 중문 관광</li>
+        <li>서귀포 올레시장 야식</li>
+      </ul>
+    </div>
+    <div class="day">
+      <h3>Day 3 · 서쪽</h3>
+      <ul>
+        <li>협재 해변 · 카페</li>
+        <li>새별오름 트레킹</li>
+        <li>고기국수로 점심</li>
+        <li>공항 이동 · 귀가</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="tips" class="tips">
+  <div class="tips-inner">
+    <h2>💡 여행 팁</h2>
+    <p class="sub">알고 가면 훨씬 편해요</p>
+    <div class="tip-list">
+      <div class="tip"><b>🚗 교통</b><br>대중교통이 제한적이라 렌터카가 가장 편합니다. 성수기에는 미리 예약하세요.</div>
+      <div class="tip"><b>🌬️ 날씨</b><br>바람이 강하고 날씨 변화가 빠릅니다. 겉옷과 우산을 챙기세요.</div>
+      <div class="tip"><b>📅 최적 시기</b><br>유채꽃 3~4월, 해수욕 7~8월, 억새 10~11월, 눈꽃 한라산 1~2월.</div>
+      <div class="tip"><b>♻️ 매너</b><br>오름과 해안의 자연을 훼손하지 말고 쓰레기는 꼭 가져가세요.</div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 제주도 관광 가이드 · 연습용 페이지</footer>
+
+</body>
+</html>
